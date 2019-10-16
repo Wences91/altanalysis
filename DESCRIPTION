@@ -5,8 +5,11 @@ Version: 0.1.1
 Author: Wenceslao Arroyo-Machado [aut] (<http://orcid.org/0000-0001-9437-8757>)
 Maintainer: Wenceslao Arroyo-Machado <wences@ugr.es>
 Description: Stats and networks for altmetric mentions in R
+Depends:
+	dplyr
 Imports:
-    dplyr
+    stats,
+    utils
 License: GNU General Public License v3.0
 URL: https://github.com/Wences91/altanalysis
 BugReports: https://github.com/Wences91/altanalysis/issues
