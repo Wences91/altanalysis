@@ -1,3 +1,5 @@
+#' mentions_stats
+#' @param mentions data.frame of mentions
 #' @export
 
 mentions_stats <- function(mentions){
