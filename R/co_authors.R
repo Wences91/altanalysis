@@ -1,3 +1,7 @@
+#' co_autors
+#' @param mentions data.frame of mentions
+#' @param min Minimun co-occurrences
+#' @param social_media Vector of social media names
 #' @export
 #' @import dplyr
 #' 
@@ -21,7 +25,8 @@ co_authors <- function(mentions, min = 1, social_media = NULL){
         return('Social media error')
       }
     },error=function(e){
-      return(error)
+      message(e)
+      return(NULL)
     }
   )
   
