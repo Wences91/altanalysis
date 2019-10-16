@@ -5,6 +5,6 @@ Stats and networks for altmetric mentions in R
 
 ``` r
 # Install from GitHub
-# install.packages("devtools")
+# install.packages('devtools')
 devtools::install_github('Wences91/altanalysis')
 ```
