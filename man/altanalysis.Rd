@@ -8,5 +8,4 @@ co_authors()
 Prints 'Hello, world!'.
 }
 \examples{
-co_authors()
 }
