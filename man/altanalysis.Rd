@@ -2,11 +2,11 @@
 \alias{altanalysis}
 \title{Hello, World!}
 \usage{
-networks()
+co_authors()
 }
 \description{
 Prints 'Hello, world!'.
 }
 \examples{
-networks()
+co_authors()
 }
