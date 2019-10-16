@@ -4,13 +4,13 @@ Title: Altmetric analysis
 Version: 0.1.1
 Author: Wenceslao Arroyo-Machado [aut] (<http://orcid.org/0000-0001-9437-8757>)
 Maintainer: Wenceslao Arroyo-Machado <wences@ugr.es>
-Description: Stats and networks for altmetric mentions in R
+Description: Stats and networks for altmetric mentions in R.
 Depends:
 	dplyr
 Imports:
     stats,
     utils
-License: GNU General Public License v3.0
+License: GPL-3 | file LICENSE
 URL: https://github.com/Wences91/altanalysis
 BugReports: https://github.com/Wences91/altanalysis/issues
 Encoding: UTF-8
