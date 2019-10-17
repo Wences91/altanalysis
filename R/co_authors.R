@@ -1,4 +1,4 @@
-#' co_autors
+#' co_authors
 #' 
 #' @param mentions data.frame of mentions
 #' @param min Minimun co-occurrences
