@@ -1,4 +1,5 @@
 #' co_autors
+#' 
 #' @param mentions data.frame of mentions
 #' @param min Minimun co-occurrences
 #' @param social_media Vector of social media names
@@ -37,7 +38,7 @@ co_authors <- function(mentions, min = 1, social_media = NULL){
   
   # it needs to remove wrong values such as empty values
   # reduce data.frame to two columns
-  mentions <- mentions[,which(names(mentions) %in% c('Outlet or Author', 'Details Page URL'))]
+  mentions <- mentions[,which(names(mentions) %in% c('Mention Type', 'Outlet or Author', 'Details Page URL'))]
   
   # remove empty social media actors
   mentions <- mentions[which(mentions$`Outlet or Author` != ''),]
@@ -50,9 +51,19 @@ co_authors <- function(mentions, min = 1, social_media = NULL){
     mentions <- mentions[which(mentions$`Outlet or Author` %in% co_min),]
   }
   
+  # solve the problem of different social media with the same name
+  mentions_distinction <- actor_distinction(mentions)
+  if(!is.null(mentions_distinction)){
+    mentions <- mentions_distinction
+  }
+  
+  # save actors
+  actors <- unique(mentions[, which(names(mentions) %in% c('Outlet or Author', 'Mention Type')),])
+  
   # merge co-authors
+  mentions <- mentions[, which(names(mentions) %in% c('Outlet or Author', 'Details Page URL')),]
   #co_authors <- merge.default(x = mentions, y= mentions, by = 'Details Page URL')
-  co_authors <- dplyr::inner_join(x = mentions, y= mentions, by = 'Details Page URL') # faster than merge
+  co_authors <- dplyr::inner_join(x = mentions, y = mentions, by = 'Details Page URL') # faster than merge
   
   # delete wrong co-authors
   co_authors <- co_authors[which(!(co_authors$`Outlet or Author.x` == co_authors$`Outlet or Author.y`)),]
@@ -77,10 +88,18 @@ co_authors <- function(mentions, min = 1, social_media = NULL){
   
   co_authors$`Co-occurrences` <- 1
   
-  co_authors <- co_authors %>%
-    dplyr::group_by(Source, Target) %>%
-    dplyr::summarise(`Co-occurrences` = sum(`Co-occurrences`))
+  co_authors <- dplyr::group_by(co_authors, Source, Target)
+  co_authors <- dplyr::summarise(co_authors, `Co-occurrences` = sum(`Co-occurrences`))
   
+  # mentions data.frame
   co_authors <- as.data.frame(co_authors, stringsAsFactors = FALSE)
-  return(co_authors[order(co_authors$`Co-occurrences`, decreasing = TRUE),])
+  
+  # actors data.frame
+  co_actors_table <- as.data.frame(table(c(co_authors$Source, co_authors$Target)),
+                                   stringsAsFactors = FALSE)
+  names(co_actors_table) <- c('Outlet or Author', 'Co-mentions')
+  co_actors_table <- dplyr::inner_join(x = co_actors_table, y = actors, by = 'Outlet or Author')
+  
+  return(list(mentions = co_authors[order(co_authors$`Co-occurrences`, decreasing = TRUE),],
+              actors = co_actors_table))
 }
