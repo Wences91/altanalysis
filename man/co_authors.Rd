@@ -2,7 +2,7 @@
 % Please edit documentation in R/co_authors.R
 \name{co_authors}
 \alias{co_authors}
-\title{co_autors}
+\title{co_authors}
 \usage{
 co_authors(mentions, min = 1, social_media = NULL)
 }
@@ -14,5 +14,5 @@ co_authors(mentions, min = 1, social_media = NULL)
 \item{social_media}{Vector of social media names}
 }
 \description{
-co_autors
+co_authors
 }
