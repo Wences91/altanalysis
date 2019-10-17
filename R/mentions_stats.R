@@ -1,4 +1,5 @@
 #' mentions_stats
+#' 
 #' @param mentions data.frame of mentions
 #' @export
 
@@ -12,7 +13,8 @@ mentions_stats <- function(mentions){
         return('Mentions data.frame error')
       }
     },error=function(e){
-      return(error)
+      message(e)
+      return(NULL)
     }
   )
   
