@@ -1,7 +1,7 @@
 #' co_authors
 #' 
 #' @param mentions data.frame of mentions
-#' @param min Minimun co-occurrences
+#' @param min Minimun mentions
 #' @param social_media Vector of social media names
 #' @export
 #' @import dplyr
