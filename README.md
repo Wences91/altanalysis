@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Wences91/altanalysis.svg?branch=master)](https://travis-ci.org/Wences91/altanalysis)
 
-# altmetric-analysis
+# Altmetric analysis
 Stats and networks for altmetric mentions in R
 
 ## Installation
