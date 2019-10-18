@@ -2,5 +2,6 @@
 
 export(actor_distinction)
 export(co_authors)
+export(consistency)
 export(mentions_stats)
 import(dplyr)
