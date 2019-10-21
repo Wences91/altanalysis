@@ -5,7 +5,6 @@
 #' @param min Minimun mentions
 #' @param co_min Minimun co-mentions
 #' @export
-#' @import dplyr
 #' @import igraph
 #' 
 
