@@ -4,14 +4,10 @@
 \alias{co_authors}
 \title{co_authors}
 \usage{
-co_authors(mentions, min = 1, co_min = 1, social_media = NULL)
+co_authors(mentions, social_media = NULL)
 }
 \arguments{
 \item{mentions}{data.frame of mentions}
-
-\item{min}{Minimun mentions}
-
-\item{co_min}{Minimun co-mentions}
 
 \item{social_media}{Vector of social media names}
 }
