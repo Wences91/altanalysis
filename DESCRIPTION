@@ -6,7 +6,8 @@ Author: Wenceslao Arroyo-Machado [aut] (<http://orcid.org/0000-0001-9437-8757>)
 Maintainer: Wenceslao Arroyo-Machado <wences@ugr.es>
 Description: Stats and networks for altmetric mentions in R.
 Depends:
-	dplyr
+	dplyr,
+	igraph
 Imports:
     stats,
     utils
