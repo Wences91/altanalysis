@@ -2,7 +2,7 @@
 #' 
 #' @param mentions data.frame of mentions
 #' @export
-#' @import dplyr
+#' @importFrom dplyr mutate
 #' 
 
 actor_distinction <- function(mentions){
