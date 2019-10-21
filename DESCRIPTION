@@ -6,11 +6,12 @@ Author: Wenceslao Arroyo-Machado [aut] (<http://orcid.org/0000-0001-9437-8757>)
 Maintainer: Wenceslao Arroyo-Machado <wences@ugr.es>
 Description: Stats and networks for altmetric mentions in R.
 Depends:
-	dplyr,
-	igraph
+	R(>= 3.3)
 Imports:
     stats,
-    utils
+    utils,
+    dplyr,
+	igraph
 License: GPL-3 | file LICENSE
 URL: https://github.com/Wences91/altanalysis
 BugReports: https://github.com/Wences91/altanalysis/issues
