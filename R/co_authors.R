@@ -2,12 +2,13 @@
 #' 
 #' @param mentions data.frame of mentions
 #' @param min Minimun mentions
+#' @param co_min Minimun co-mentions
 #' @param social_media Vector of social media names
 #' @export
 #' @import dplyr
 #' 
 
-co_authors <- function(mentions, min = 1, social_media = NULL){
+co_authors <- function(mentions, min = 1, co_min = 1, social_media = NULL){
   # This function gets the Altmetric mentions data.frame and return the co-authors network by a two columns data.frame
   # if there is not social_media argument it uses all social media mentions
   
@@ -17,6 +18,9 @@ co_authors <- function(mentions, min = 1, social_media = NULL){
   tryCatch(
     expr = {
       if(!(is.numeric(min) | min %% 1 == 0 | min > 0)){
+        return('Minimum mentions error')
+      }
+      if(!(is.numeric(co_min) | co_min %% 1 == 0 |co_min > 0)){
         return('Minimum co-occurrence error')
       }
       if(!(all(c('Outlet or Author', 'Details Page URL') %in% colnames(mentions)))){
@@ -43,13 +47,6 @@ co_authors <- function(mentions, min = 1, social_media = NULL){
   # remove empty social media actors
   mentions <- mentions[which(mentions$`Outlet or Author` != ''),]
   
-  # filter if there is a minimum value
-  if(min > 1){
-    co_min <- as.data.frame(table(mentions$`Outlet or Author`),
-                            stringsAsFactors = FALSE)
-    co_min <- co_min[which(co_min$Freq >= min), 'Var1']
-    mentions <- mentions[which(mentions$`Outlet or Author` %in% co_min),]
-  }
   
   # solve the problem of different social media with the same name
   mentions_distinction <- actor_distinction(mentions)
@@ -59,6 +56,7 @@ co_authors <- function(mentions, min = 1, social_media = NULL){
   
   # save actors
   actors <- unique(mentions[, which(names(mentions) %in% c('Outlet or Author', 'Mention Type')),])
+  actors$`Outlet or Author2` <- actors$`Outlet or Author` # it is needed to avoid problems with strange characters when they are merged
   
   # merge co-authors
   mentions <- mentions[, which(names(mentions) %in% c('Outlet or Author', 'Details Page URL')),]
@@ -93,13 +91,36 @@ co_authors <- function(mentions, min = 1, social_media = NULL){
   
   # mentions data.frame
   co_authors <- as.data.frame(co_authors, stringsAsFactors = FALSE)
+  co_authors <- co_authors[order(co_authors$`Co-occurrences`, decreasing = TRUE),]
+  
+  # filter if there is a minimum mentions value
+  if(min > 1){
+    co_authors <- co_authors[which(co_authors$`Co-occurrences` >= min),]
+  }
   
   # actors data.frame
   co_actors_table <- as.data.frame(table(c(co_authors$Source, co_authors$Target)),
                                    stringsAsFactors = FALSE)
   names(co_actors_table) <- c('Outlet or Author', 'Co-mentions')
-  co_actors_table <- dplyr::inner_join(x = co_actors_table, y = actors, by = 'Outlet or Author')
   
-  return(list(mentions = co_authors[order(co_authors$`Co-occurrences`, decreasing = TRUE),],
+  co_actors_table <- dplyr::inner_join(x = co_actors_table, y = actors, by = 'Outlet or Author')
+  # fix problems with names when apply inner join using it as by
+  co_actors_table <- co_actors_table[,-which(names(co_actors_table) == 'Outlet or Author')]
+  names(co_actors_table)[which(names(co_actors_table) == 'Outlet or Author2')] <- 'Outlet or Author'
+  # order columns
+  co_actors_table <- co_actors_table[, c('Outlet or Author', 'Mention Type', 'Co-mentions')]
+  
+  
+  # filter if there is a minimum co-mentions value
+  if(co_min > 1){
+    co_actors_table <- co_actors_table[which(co_actors_table$`Co-mentions` >= co_min),]
+    co_authors <- co_authors[which(co_authors$Source %in% co_actors_table$`Outlet or Author` & co_authors$Target %in% co_actors_table$`Outlet or Author`),]
+  }
+  
+  # rename rownames
+  rownames(co_authors) <- 1:dim(co_authors)[1]
+  rownames(co_actors_table) <- 1:dim(co_actors_table)[1]
+  
+  return(list(mentions = co_authors,
               actors = co_actors_table))
 }
