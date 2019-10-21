@@ -3,7 +3,7 @@
 #' @param mentions data.frame of mentions
 #' @param social_media Vector of social media names
 #' @export
-#' @import dplyr
+#' @importFrom dplyr inner_join mutate distinct group_by summarise
 #' 
 
 co_authors <- function(mentions, social_media = NULL){
