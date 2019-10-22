@@ -65,9 +65,9 @@ network <- function(nodes, edges, min = 1, co_min = 1){
   degree <- igraph::degree(g, mode = 'total')
   
   # layout
-  #l <- igraph::layout.fruchterman.reingold(g)
+  l <- igraph::layout.fruchterman.reingold(g)
   #l <- igraph::layout.kamada.kawai(g)
-  l <- igraph::layout.auto(g)
+  #l <- igraph::layout.auto(g)
   #l <- igraph::layout.graphopt(g)
   #l <- igraph::layout.davidson.harel(g)
   
@@ -75,8 +75,27 @@ network <- function(nodes, edges, min = 1, co_min = 1){
   #cluster <- igraph::cluster_leading_eigen(as.undirected(g))
   cluster <- igraph::cluster_louvain(as.undirected(g))
   
-  igraph::modularity(g, cluster$membership)
+  message(paste('Q:', as.character(round(igraph::modularity(g, cluster$membership), 2))))
   
-  return(list(graph = g, cluster = cluster, layout = l))
+  colors <- rainbow(max(membership(cluster)), alpha = .7)
+  
+  #color_edges <- setNames(as.integer(membership(cluster)), names(membership(cluster)))
+  
+  # show top nodes
+  top_limit <- as.integer(sort(degree, decreasing = TRUE)[5])
+  
+  network_plot <- plot(cluster, col = colors[membership(cluster)],
+                       g, layout = l, rescale = FALSE, ylim=c(min(l[,2]), max(l[,2])), xlim = c(min(l[,1]), max(l[,1])),
+                       edge.curved = .3, edge.width = igraph::E(g)$`Co-occurrences` / 10, edge.arrow.size=.05, edge.arrow.width=.2, edge.color = adjustcolor('grey10', alpha = .5),
+                       #colors[color_edges[edges$Source]],
+                       #vertex.color = colors[membership(cluster)],
+                       vertex.frame.color = NA, vertex.size = degree * 2,
+                       vertex.label = NA,
+                       vertex.label.family = 'Arial',
+                       vertex.label.cex=.5, vertex.label.color = 'black',
+                       #asp = 0,
+                       axes = FALSE)
+  
+  #return(list(graph = g, cluster = cluster, layout = l))
   
 }
