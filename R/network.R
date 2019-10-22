@@ -89,13 +89,13 @@ network <- function(nodes, edges, min = 1, co_min = 1){
                        edge.curved = .3, edge.width = igraph::E(g)$`Co-occurrences` / 10, edge.arrow.size=.05, edge.arrow.width=.2, edge.color = adjustcolor('grey10', alpha = .5),
                        #colors[color_edges[edges$Source]],
                        #vertex.color = colors[membership(cluster)],
-                       vertex.frame.color = NA, vertex.size = degree * 2,
-                       vertex.label = NA,
+                       vertex.frame.color = NA, vertex.size = degree,
+                       vertex.label = ifelse(degree > top_limit, igraph::V(g)$name, NA),
                        vertex.label.family = 'Arial',
                        vertex.label.cex=.5, vertex.label.color = 'black',
                        #asp = 0,
                        axes = FALSE)
   
-  #return(list(graph = g, cluster = cluster, layout = l))
+  return(list(graph = g, cluster = cluster, layout = l))
   
 }
