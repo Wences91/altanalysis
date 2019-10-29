@@ -15,7 +15,8 @@ Imports:
     NLP,
     tm,
     openNLP,
-    SemNetCleaner
+    SemNetCleaner,
+    udpipe
 License: GPL-3 | file LICENSE
 URL: https://github.com/Wences91/altanalysis
 BugReports: https://github.com/Wences91/altanalysis/issues
