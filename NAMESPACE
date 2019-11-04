@@ -2,7 +2,7 @@
 
 export(actor_distinction)
 export(co_authors)
-export(co_words_annotatde)
+export(co_words_annotate)
 export(co_words_keywords)
 export(co_words_tags)
 export(consistency)
