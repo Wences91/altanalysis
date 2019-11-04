@@ -13,13 +13,15 @@
 co_words_annotate <- function(publications_titles){
   # clean data
   publications_titles <- unique(publications_titles[,which(names(publications_titles) %in% c('Research Output Title', 'Details Page URL'))])
-  #todo: test no duplicated
+  
+  #check duplicated
+  distinction(publications_titles, 2)
   
   # preprocess
   publications_titles$`Research Output Title` <- gsub("[^-0-9A-Za-z///,/./: ]", '', publications_titles$`Research Output Title`, perl = TRUE)
   publications_titles$`Research Output Title` <- gsub("web of science", 'WOS', ignore.case = TRUE, publications_titles$`Research Output Title`)
   
-  
+  # create an empty listo for the whole process
   annotate_titles <- list()
   
   message('Annotating')
@@ -27,6 +29,7 @@ co_words_annotate <- function(publications_titles){
   # identify all words in the titles
   sapply(1:dim(publications_titles)[1], function(i){
     
+    # count
     cat('\r', i)
     
     # at first I transform the title to lower case
