@@ -14,6 +14,7 @@ co_words_tags <- function(annotate_titles){
   # assing tags to each word
   invisible(sapply(1:length(annotate_titles), function(i){
     
+    # count
     cat('\r', i)
     
     # get tags
