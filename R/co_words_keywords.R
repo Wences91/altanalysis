@@ -25,6 +25,7 @@ co_words_keywords <- function(annotate_titles, binary = TRUE){
   
   sapply(1:length(annotate_titles), function(x){
     
+    # count
     cat('\r', x)
     
     if(all(is.na(annotate_titles[[x]]$tagged_words))){
