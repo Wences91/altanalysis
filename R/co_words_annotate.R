@@ -2,7 +2,7 @@
 #' 
 #' @param publications_titles titles of publications
 #' @export
-#' @import NLP
+#' @importFrom NLP annotate
 #' @import tm
 #' @importFrom openNLP Maxent_Sent_Token_Annotator Maxent_Word_Token_Annotator
 
