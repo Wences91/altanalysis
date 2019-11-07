@@ -2,7 +2,7 @@
 #' 
 #' @param annotate_titles list with titles and words annotations
 #' @export
-#' @import NLP
+#' @importFrom NLP annotate
 #' @import tm
 #' @importFrom openNLP Maxent_POS_Tag_Annotator
 
