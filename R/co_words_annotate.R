@@ -1,4 +1,4 @@
-#' co_words_annotatde
+#' co_words_annotate
 #' 
 #' @param publications_titles titles of publications
 #' @export
