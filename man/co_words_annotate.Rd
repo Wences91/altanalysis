@@ -2,7 +2,7 @@
 % Please edit documentation in R/co_words_annotate.R
 \name{co_words_annotate}
 \alias{co_words_annotate}
-\title{co_words_annotatde}
+\title{co_words_annotate}
 \usage{
 co_words_annotate(publications_titles)
 }
@@ -10,5 +10,5 @@ co_words_annotate(publications_titles)
 \item{publications_titles}{titles of publications}
 }
 \description{
-co_words_annotatde
+co_words_annotate
 }
