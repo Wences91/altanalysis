@@ -56,7 +56,7 @@ is_retuit <- function(tweets,
         quest <- httr::GET(paste('https://api.twitter.com/1.1/statuses/show.json?id=', tweet_split[length(tweet_split)], sep = ''), config(token = twitter_token))
         
         if(quest$status_code == 429){
-          print('\n', 'Please wait 15 minutes')
+          cat('\n', 'Please wait 15 minutes')
           Sys.sleep(61*15)
         }else{
           limit <- FALSE
