@@ -18,10 +18,21 @@ co_words_annotate <- function(publications_titles){
   distinction(publications_titles, 2)
   
   # preprocess
-  publications_titles$`Research Output Title` <- gsub("[^-0-9A-Za-z///,/./: ]", '', publications_titles$`Research Output Title`, perl = TRUE)
-  publications_titles$`Research Output Title` <- gsub("web of science", 'WOS', ignore.case = TRUE, publications_titles$`Research Output Title`)
+  #publications_titles$`Research Output Title` <- gsub("[^-0-9A-Za-z///,/./: ]", '', publications_titles$`Research Output Title`, perl = TRUE) #remove numbers
+  #publications_titles$`Research Output Title` <- gsub("-", ' ', publications_titles$`Research Output Title`, perl = TRUE) #transform dash into spaces
   
-  # create an empty listo for the whole process
+  publications_titles$`Research Output Title` <- gsub("web of science", 'WOS', ignore.case = TRUE, publications_titles$`Research Output Title`) #transform terms
+  
+  publications_titles$`Research Output Title` <- gsub("\\s-\\s", ' . ', publications_titles$`Research Output Title`, perl = TRUE) #transform dashes
+  publications_titles$`Research Output Title` <- gsub("-", ' ', publications_titles$`Research Output Title`, perl = TRUE) #remove dashes
+  publications_titles$`Research Output Title` <- gsub("\\d+(\\.|\\,)\\d+", ' ', publications_titles$`Research Output Title`, perl = TRUE) #remove decimal numbers
+  publications_titles$`Research Output Title` <- gsub("[^0-9a-zA-Z///,/./:/;/(/) ]|\\d*+(?!st|th|d|g)", '', ignore.case = TRUE, publications_titles$`Research Output Title`, perl = TRUE) #remove numbers and special characters
+  publications_titles$`Research Output Title` <- gsub("\\(", ' ( ', publications_titles$`Research Output Title`, perl = TRUE) #to avoid problems
+  publications_titles$`Research Output Title` <- gsub("\\[", ' [ ', publications_titles$`Research Output Title`, perl = TRUE) #to avoid problems
+  publications_titles$`Research Output Title` <- gsub("\\s\\s+", ' ', publications_titles$`Research Output Title`, perl = TRUE) #remove double spaces
+  publications_titles$`Research Output Title` <- gsub("\\.\\.+", '.', publications_titles$`Research Output Title`, perl = TRUE) #remove double points
+  
+  # create an empty list for the whole process
   annotate_titles <- list()
   
   message('Annotating')
@@ -32,8 +43,8 @@ co_words_annotate <- function(publications_titles){
     # count
     cat('\r', i)
     
-    # at first I transform the title to lower case
-    text <- tolower(publications_titles$`Research Output Title`[i])
+    # at first I don't transform the title to lower case
+    text <- publications_titles$`Research Output Title`[i]
     
     tryCatch(
       {
