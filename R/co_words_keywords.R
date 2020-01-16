@@ -37,7 +37,7 @@ co_words_keywords <- function(annotate_titles, binary = TRUE){
       
       stats_aux_0 <- udpipe::keywords_phrases(x = annotate_titles[[x]]$tagged_words$phrase_tag, term = annotate_titles[[x]]$tagged_words$word, 
                                               pattern = '(A|N)*N$',
-                                              ngram_max = 4, # more?
+                                              ngram_max = 8, #default
                                               is_regex = TRUE, detailed = TRUE)
       
       # if doesn't find anything
@@ -48,12 +48,23 @@ co_words_keywords <- function(annotate_titles, binary = TRUE){
         stats_aux_0 <- stats_aux_0[order(stats_aux_0$ngram, decreasing = TRUE),]
         
         # at first select the longest word
+        
+        # singularize the last word
+        # if the last word is capitalized it doesn't transform it to lower case before singularize it
         if(length(unlist(strsplit(stats_aux_0$keyword[1], ' '))) > 1){
-          # singularize the last word
-          stats_aux <- paste(c(unlist(strsplit(stats_aux_0$keyword[1], ' '))[1:(max(length(unlist(strsplit(stats_aux_0$keyword[1], ' '))))-1)],
-                               SemNetCleaner::singularize(unlist(strsplit(stats_aux_0$keyword[1], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[1], ' '))))])), collapse = ' ')
+          if(unlist(strsplit(stats_aux_0$keyword[1], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[1], ' '))))]==toupper(unlist(strsplit(stats_aux_0$keyword[1], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[1], ' '))))])){
+            stats_aux <- paste(tolower(c(unlist(strsplit(stats_aux_0$keyword[1], ' '))[1:(max(length(unlist(strsplit(stats_aux_0$keyword[1], ' '))))-1)],
+                                         SemNetCleaner::singularize(unlist(strsplit(stats_aux_0$keyword[1], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[1], ' '))))]))), collapse = ' ')
+          }else{
+            stats_aux <- paste(tolower(c(unlist(strsplit(stats_aux_0$keyword[1], ' '))[1:(max(length(unlist(strsplit(stats_aux_0$keyword[1], ' '))))-1)],
+                                         SemNetCleaner::singularize(tolower(unlist(strsplit(stats_aux_0$keyword[1], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[1], ' '))))])))), collapse = ' ')
+          }
         }else{
-          stats_aux <- SemNetCleaner::singularize(stats_aux_0$keyword[1])
+          if(stats_aux_0$keyword[1]==toupper(stats_aux_0$keyword[1])){
+            stats_aux <- tolower(SemNetCleaner::singularize(stats_aux_0$keyword[1]))
+          }else{
+            stats_aux <- SemNetCleaner::singularize(tolower(stats_aux_0$keyword[1]))
+          }
         }
         
         index_words <- stats_aux_0$start[1]:stats_aux_0$end[1]
@@ -63,12 +74,23 @@ co_words_keywords <- function(annotate_titles, binary = TRUE){
           sapply(2:dim(stats_aux_0)[1], function(x){
             if(!(all(c(stats_aux_0$start[x]:stats_aux_0$end[x]) %in% index_words))){
               # singularize the last word
+              # if the last word is capitalized it doesn't transform to lower case before singularize it
               if(length(unlist(strsplit(stats_aux_0$keyword[x], ' '))) > 1){
-                stats_aux <<- c(stats_aux,
-                                paste(c(unlist(strsplit(stats_aux_0$keyword[x], ' '))[1:(max(length(unlist(strsplit(stats_aux_0$keyword[x], ' '))))-1)],
-                                        SemNetCleaner::singularize(unlist(strsplit(stats_aux_0$keyword[x], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[x], ' '))))])), collapse = ' '))
+                if(unlist(strsplit(stats_aux_0$keyword[x], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[x], ' '))))]==toupper(unlist(strsplit(stats_aux_0$keyword[x], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[x], ' '))))])){
+                  stats_aux <<- c(stats_aux,
+                                  paste(tolower(c(unlist(strsplit(stats_aux_0$keyword[x], ' '))[1:(max(length(unlist(strsplit(stats_aux_0$keyword[x], ' '))))-1)],
+                                                  SemNetCleaner::singularize(unlist(strsplit(stats_aux_0$keyword[x], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[x], ' '))))]))), collapse = ' '))
+                }else{
+                  stats_aux <<- c(stats_aux,
+                                  paste(tolower(c(unlist(strsplit(stats_aux_0$keyword[x], ' '))[1:(max(length(unlist(strsplit(stats_aux_0$keyword[x], ' '))))-1)],
+                                                  SemNetCleaner::singularize(tolower(unlist(strsplit(stats_aux_0$keyword[x], ' '))[max(length(unlist(strsplit(stats_aux_0$keyword[x], ' '))))])))), collapse = ' '))
+                }
               }else{
-                stats_aux <<- c(stats_aux, SemNetCleaner::singularize(stats_aux_0$keyword[x]))
+                if(stats_aux_0$keyword[x]==toupper(stats_aux_0$keyword[x])){
+                  stats_aux <<- c(stats_aux, tolower(SemNetCleaner::singularize(stats_aux_0$keyword[x])))
+                }else{
+                  stats_aux <<- c(stats_aux, SemNetCleaner::singularize(tolower(stats_aux_0$keyword[x])))
+                }
               }
               
               index_words <<- sort(c(index_words, c(stats_aux_0$start[x]:stats_aux_0$end[x])))
@@ -78,7 +100,7 @@ co_words_keywords <- function(annotate_titles, binary = TRUE){
         
         # whether binary
         if(binary){
-          stats_aux <- unique(stats_aux) 
+          stats_aux <- unique(stats_aux)
         }
         
         # occurrences
