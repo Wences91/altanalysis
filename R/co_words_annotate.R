@@ -25,6 +25,8 @@ co_words_annotate <- function(publications_titles){
   
   publications_titles$`Research Output Title` <- gsub("\\s-\\s", ' . ', publications_titles$`Research Output Title`, perl = TRUE) #transform dashes
   publications_titles$`Research Output Title` <- gsub("-", ' ', publications_titles$`Research Output Title`, perl = TRUE) #remove dashes
+  publications_titles$`Research Output Title` <- gsub("([a-z])\\.([a-z])", '\\1 \\2', ignore.case = FALSE, publications_titles$`Research Output Title`, perl = TRUE) #solve URL
+  publications_titles$`Research Output Title` <- gsub("([A-Z])\\.([A-Z])", '\\1\\2', ignore.case = FALSE, publications_titles$`Research Output Title`, perl = TRUE) #solve acronyms
   publications_titles$`Research Output Title` <- gsub("\\d+(\\.|\\,)\\d+", ' ', publications_titles$`Research Output Title`, perl = TRUE) #remove decimal numbers
   publications_titles$`Research Output Title` <- gsub("[^0-9a-zA-Z///,/./:/;/(/) ]|\\d*+(?!st|th|d|g)", '', ignore.case = TRUE, publications_titles$`Research Output Title`, perl = TRUE) #remove numbers and special characters
   publications_titles$`Research Output Title` <- gsub("\\(", ' ( ', publications_titles$`Research Output Title`, perl = TRUE) #to avoid problems
