@@ -4,20 +4,20 @@
 \alias{altmetric_wos_mentions}
 \title{altmetric_wos_mentions}
 \usage{
-altmetric_wos_mentions(mentions, wos, filter = NULL,
+altmetric_wos_mentions(mentions, wos_incites, filter = NULL,
   only_tweets = FALSE, retweets = NULL)
 }
 \arguments{
-\item{mentions}{Altmetric.com mentions}
+\item{mentions}{Altmetric.com mentions data.frame}
 
-\item{wos}{InCites WoS records}
+\item{wos_incites}{InCites WoS records data.frame}
 
-\item{filter}{filter by mention types}
+\item{filter}{Character or vector of optional Altmetric.com mention types}
 
-\item{only_tweets}{reduce Twitter mentions to only tweets}
+\item{only_tweets}{Boolean indicating if want to reduce Twitter mentions to only tweets}
 
-\item{retweets}{data.frame with tweets and retweets information}
+\item{retweets}{Tweet or retweet data.frame}
 }
 \description{
-altmetric_wos_mentions
+This function joins Altmetric mentions with InCites WoS records, optionally can also filter by mention types and remove retweets. As result, it returns mentions with accession number and title from InCites.
 }
