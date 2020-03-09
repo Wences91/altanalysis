@@ -9,3 +9,7 @@ mentions-sample.csv
 # History files
 .Rhistory
 .Rapp.history
+
+# R data
+.RData
+.Ruserdata
