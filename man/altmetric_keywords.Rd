@@ -8,12 +8,12 @@ altmetric_keywords(altmetric_wos_mentions, wos_records,
   remove_journals = NULL)
 }
 \arguments{
-\item{altmetric_wos_mentions}{Altmetric.com mentions with WoS data}
+\item{altmetric_wos_mentions}{Altmetric.com mentions with acccession number data.frame}
 
-\item{wos_records}{WoS records}
+\item{wos_records}{WoS records data.frame}
 
-\item{remove_journals}{name of journals to remove}
+\item{remove_journals}{Character o vector of optional names of journals to remove from}
 }
 \description{
-altmetric_keywords
+This function get Altmetric.com mentions (the result from altmetric_wos_mentions) and WoS records. Then it splits all WoS records into author keywords (one per record) and join with Altmetric.com mentions. It returns a list with two data.frame: all Altmetric.com mentions that have author keywords and these, and the same with records.
 }
