@@ -1,10 +1,12 @@
 #' read_wos
 #' 
-#' @param path directory path with all WoS records
+#' @param path directory path with all WoS records in txt format
+#' @description  This function get a directory with WoS records in txt format, and it joins all of them into one data.frame. As result, it returns a data.frame with all records.
 #' @export
 #' 
 
 wos_read <- function(path){
+  
   # Import full WoS records
   wos_records <- data.frame()
   
