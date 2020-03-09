@@ -7,8 +7,8 @@
 wos_read(path)
 }
 \arguments{
-\item{path}{directory path with all WoS records}
+\item{path}{directory path with all WoS records in txt format}
 }
 \description{
-read_wos
+This function get a directory with WoS records in txt format, and it joins all of them into one data.frame. As result, it returns a data.frame with all records.
 }
