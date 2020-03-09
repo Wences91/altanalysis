@@ -1,14 +1,16 @@
-#' co_kewords_network
+#' co_keywords_network
 #' 
-#' @param keywords keywords data.frame
-#' @param keywords_mentions Altmetric.com mentions with keywords
-#' @param binary binary counting
-#' @param min_co minimum of co-occurrences
+#' @param keywords Keywords data.frame from altmetric_keywords
+#' @param keywords_mentions Altmetric.com mentions with keywords from altmetric_keywords
+#' @param binary Boolean that indactes if the occurrence count carried is binary or not
+#' @param min_co To filter the network on the basis of a minimum of co-occurrences
+#' @description This function gets the keywords and keywords mentions from altmetric_keywords and obtains a co-occurrence network of keywords. It returns a list wit two data.frame that correspond to the nodes and edges of the network.
 #' @export
 #' @importFrom dplyr inner_join mutate distinct group_by summarise
 #' 
 
-co_kewords_network <- function(keywords, keywords_mentions, binary = TRUE, min_co=1){
+co_keywords_network <- function(keywords, keywords_mentions, binary=TRUE, min_co=1){
+  
   # Mention URL is needed to identify each unique mention and use the score
   keys_score <- keywords_mentions[,c('keyword', 'Mention URL', 'Outlet or Author')]
   
@@ -17,8 +19,7 @@ co_kewords_network <- function(keywords, keywords_mentions, binary = TRUE, min_c
     keys_score <- unique(keys_score)
   }
   
-  # Network
-  ## Network edges
+  # Network edges
   co_keywords <- dplyr::inner_join(keywords[,c('keyword', 'id')], keywords[,c('keyword', 'id')], by='id')
   
   ## Delete wrong co-kewords
@@ -47,7 +48,7 @@ co_kewords_network <- function(keywords, keywords_mentions, binary = TRUE, min_c
   co_keywords <- co_keywords[which(co_keywords$Weight >= min_co),]
   
   
-  ## Nodes
+  # Network nodes
   nodes <- keys_score[,c('keyword', 'Mention URL')]
   names(nodes)[which(names(nodes) == 'Mention URL')] <- 'Weight'
   
