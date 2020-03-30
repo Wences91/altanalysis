@@ -3,13 +3,14 @@
 #' @param altmetric_wos_mentions Altmetric.com mentions with acccession number data.frame
 #' @param wos_records WoS records data.frame
 #' @param remove_journals Character o vector of optional names of journals to remove from
+#' @param wrong_words Character o vector of optional keywords to remove from
 #' @description This function get Altmetric.com mentions (the result from altmetric_wos_mentions) and WoS records. Then it splits all WoS records into author keywords (one per record) and join with Altmetric.com mentions. It returns a list with two data.frame: all Altmetric.com mentions that have author keywords and these, and the same with records.
 #' @export
 #' @importFrom dplyr inner_join
 #' 
 
 
-altmetric_keywords <- function(altmetric_wos_mentions, wos_records, remove_journals=NULL){
+altmetric_keywords <- function(altmetric_wos_mentions, wos_records, remove_journals=NULL, wrong_words=NULL){
   
   # Check integrity
   if(!(all(wos_records$UT %in% altmetric_wos_mentions$`Accession Number`) & all(altmetric_wos_mentions$`Accession Number` %in% wos_records$UT))){
@@ -38,8 +39,10 @@ altmetric_keywords <- function(altmetric_wos_mentions, wos_records, remove_journ
                               stringsAsFactors = FALSE)
   })
   
-  # Remove 0 from web 2.0 and similars
-  keys <- keys[which(!(keys$keyword == '0')),]
+  # Remove keywords
+  if(!is.null(wrong_words)){
+    keys <- keys[which(!(keys$keyword %in% wrong_words)),]
+  }
   
   # Remove ' and "
   keys$keyword <- gsub( '"|\'', '', keys$keyword)
