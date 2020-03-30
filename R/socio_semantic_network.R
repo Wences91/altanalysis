@@ -3,12 +3,13 @@
 #' @param co_authors_edges Edges of co_authors from co_authors_network
 #' @param keywords_mentions_cluster Altmetric.com mentions with keywords data.frame from co_authors_network
 #' @param mode Socio-semantic netowrk mode: (1) Clouds by keywords communities and nodes colors by co-authors communities, (2) Clouds by co-authors communities and nodes colors by keywords communities
+#' @param layout Name of layout algorithm (1-Auto, 2-Kamada-Kawai, 3-Fruchterman-Reingold, 4-DrL, 5-Nicely, 6-Components)
 #' @description This function obtains the socio-semantic network
 #' @export
-#' @importFrom igraph graph_from_data_frame V E degree cluster_louvain layout.auto
+#' @importFrom igraph graph_from_data_frame V E degree cluster_louvain layout.auto layout_with_kk layout_with_fr layout_with_drl layout_nicely layout_components
 #' 
 
-socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, mode=1){
+socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, mode=1, layout=1){
   g <- igraph::graph_from_data_frame(co_authors_edges, directed=FALSE)
   
   # Reduce to main component
@@ -46,8 +47,7 @@ socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, 
     stop('Mode ', mode, ' does not exist')
   }
   
-  
-  l <- igraph::layout.auto(g)
+  l <- switch(layout, igraph::layout.auto(g), igraph::layout_with_kk(g), igraph::layout_with_fr(g), igraph::layout_with_drl(g), igraph::layout_nicely(g), igraph::layout_components(g))
   
   plot(clusters_cloud, g,
        layout=l,
