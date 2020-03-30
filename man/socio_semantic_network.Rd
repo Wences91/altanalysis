@@ -5,7 +5,7 @@
 \title{socio_semantic_network}
 \usage{
 socio_semantic_network(co_authors_edges, keywords_mentions_cluster,
-  mode = 1)
+  mode = 1, layout = 1)
 }
 \arguments{
 \item{co_authors_edges}{Edges of co_authors from co_authors_network}
@@ -13,6 +13,8 @@ socio_semantic_network(co_authors_edges, keywords_mentions_cluster,
 \item{keywords_mentions_cluster}{Altmetric.com mentions with keywords data.frame from co_authors_network}
 
 \item{mode}{Socio-semantic netowrk mode: (1) Clouds by keywords communities and nodes colors by co-authors communities, (2) Clouds by co-authors communities and nodes colors by keywords communities}
+
+\item{layout}{Name of layout algorithm (1-Auto, 2-Kamada-Kawai, 3-Fruchterman-Reingold, 4-DrL, 5-Nicely, 6-Components)}
 }
 \description{
 This function obtains the socio-semantic network
