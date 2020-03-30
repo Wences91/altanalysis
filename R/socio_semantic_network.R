@@ -19,7 +19,7 @@ socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, 
   
   if(mode==1){
     clusters_authors <- igraph::cluster_louvain(g, weights = igraph::E(g)$Weights)
-    message('Authors modularity (cloud): ', round(clusters_authors$modularity, 2))
+    message('Authors modularity (cloud): ', round(mean(clusters_authors$modularity), 2))
     clusters_keywords <- thematic_clusters_ranked(keywords_mentions_cluster, g)
     message('Semantic modularity (nodes): ', round(clusters_keywords$clusters$modularity, 2))
     clusters_cloud <- clusters_authors
@@ -35,7 +35,7 @@ socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, 
     clusters_authors <- thematic_clusters_ranked(keywords_mentions_cluster, g)
     message('Semantic modularity (cloud): ', round(clusters_authors$clusters$modularity, 2))
     clusters_keywords <- igraph::cluster_louvain(g, weights = igraph::E(g)$Weights)
-    message('Authors modularity (nodes): ', round(clusters_keywords$modularity, 2))
+    message('Authors modularity (nodes): ', round(mean(clusters_keywords$modularity), 2))
     clusters_cloud <- clusters_authors$clusters
     
     # Assign colors to nodes
