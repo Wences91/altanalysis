@@ -23,6 +23,7 @@ socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, 
     clusters_keywords <- thematic_clusters_ranked(keywords_mentions_cluster, g)
     message('Semantic modularity (nodes): ', round(clusters_keywords$clusters$modularity, 2))
     clusters_cloud <- clusters_authors
+    clusters_nodes <- clusters_keywords$clusters
     
     # Assign colors to nodes
     if(any(clusters_keywords$clusters$membership == (max(unique(keywords_mentions_cluster$cluster))+1))){
@@ -37,7 +38,7 @@ socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, 
     clusters_keywords <- igraph::cluster_louvain(g, weights = igraph::E(g)$Weights)
     message('Authors modularity (nodes): ', round(mean(clusters_keywords$modularity), 2))
     clusters_cloud <- clusters_authors$clusters
-    
+    clusters_nodes <- clusters_keywords
     # Assign colors to nodes
     igraph::V(g)$Colors <- rainbow(length(unique(clusters_keywords$membership)))[clusters_keywords$membership]
     
@@ -62,4 +63,9 @@ socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, 
        vertex.color=igraph::V(g)$Colors, vertex.size=2, vertex.frame.color=NA,
        edge.width=.1, #edge.color=NA,
        add = TRUE)
+  
+  compare <- data.frame(nodes=clusters_nodes$membership, clouds=clusters_cloud$membership, count=1, stringsAsFactors = FALSE)
+  compare <- dplyr::group_by(compare, nodes, clouds)
+  compare <- dplyr::summarise(compare, count=sum(count))
+  return(compare)
 }
