@@ -12,7 +12,8 @@ Imports:
     utils,
     dplyr,
     igraph,
-    httr
+    httr,
+    tidyr
 License: GPL-3 | file LICENSE
 URL: https://github.com/Wences91/altanalysis
 BugReports: https://github.com/Wences91/altanalysis/issues
