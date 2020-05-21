@@ -36,7 +36,7 @@ altmetric_keywords <- function(altmetric_wos_mentions, wos_records, remove_journ
   keywords$DE <- tolower(keywords$DE)
   
   # Split keywords
-  keywords <- tidyr::separate_rows(keywords, DE, sep = '; ')
+  keys <- tidyr::separate_rows(keywords, DE, sep = '; ')
   
   # Remove keywords
   if(!is.null(wrong_words)){
