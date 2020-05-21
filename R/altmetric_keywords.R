@@ -7,6 +7,7 @@
 #' @description This function get Altmetric.com mentions (the result from altmetric_wos_mentions) and WoS records. Then it splits all WoS records into author keywords (one per record) and join with Altmetric.com mentions. It returns a list with two data.frame: all Altmetric.com mentions that have author keywords and these, and the same with records.
 #' @export
 #' @importFrom dplyr inner_join
+#' @importFrom tidyr separate_rows
 #' 
 
 
@@ -23,6 +24,8 @@ altmetric_keywords <- function(altmetric_wos_mentions, wos_records, remove_journ
   # Remove journals
   if(!is.null(remove_journals)){
     keywords <- wos_records[which(!(wos_records$SO %in% remove_journals)),]
+  }else{
+    keywords <- wos_records
   }
   
   # Select accession number (UT) and authors keywords (DE)
@@ -33,11 +36,7 @@ altmetric_keywords <- function(altmetric_wos_mentions, wos_records, remove_journ
   keywords$DE <- tolower(keywords$DE)
   
   # Split keywords
-  sapply(1:dim(keywords)[1], function(x){
-    aux <- strsplit(keywords$DE[x], '; ')[[1]]
-    keys <<- rbind.data.frame(data.frame(id=keywords$UT[x], keyword=aux, stringsAsFactors = FALSE), keys,
-                              stringsAsFactors = FALSE)
-  })
+  keywords <- tidyr::separate_rows(keywords, DE, sep = '; ')
   
   # Remove keywords
   if(!is.null(wrong_words)){
