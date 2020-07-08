@@ -5,7 +5,8 @@
 \title{socio_semantic_network}
 \usage{
 socio_semantic_network(co_authors_edges, keywords_mentions_cluster,
-  mode = 1, layout = 1, nodes_size = c(1:10), label_ratio = 0.1)
+  mode = 1, layout = 1, legend, nodes_size = c(1:10),
+  label_ratio = 0.1)
 }
 \arguments{
 \item{co_authors_edges}{Edges of co_authors from co_authors_network}
@@ -15,6 +16,8 @@ socio_semantic_network(co_authors_edges, keywords_mentions_cluster,
 \item{mode}{Socio-semantic netowrk mode: (1) Clouds by keywords communities and nodes colors by co-authors communities, (2) Clouds by co-authors communities and nodes colors by keywords communities}
 
 \item{layout}{Name of layout algorithm (1-Auto, 2-Kamada-Kawai, 3-Fruchterman-Reingold, 4-DrL, 5-Nicely, 6-Components)}
+
+\item{legend}{Ordered vector with the names of the clusters}
 
 \item{nodes_size}{Vector with minimum and maximum value of the nodes}
 
