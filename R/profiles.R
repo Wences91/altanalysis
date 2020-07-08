@@ -50,7 +50,7 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
     setup_g[row,-1]  <- ifelse(setup_g[row,-1] > 0, 1, 0)
   }
   
-  general <- UpSetR::upset(setup_g, main.bar.color = 'black', nsets = nsets, nintersects = nintersects,
+  general <- UpSetR::upset(setup_g, nsets = nsets, nintersects = nintersects,
                            order.by = 'freq',
                            queries = query,
                            point.size = 3.5, line.size = 2, 
@@ -63,7 +63,7 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
       setup_g[row,-1]  <- ifelse(setup_g[row,-1] >= i, 1, 0)
     }
     if (i == 5){
-      p5 <- UpSetR::upset(setup_g, main.bar.color = 'black', nsets = nsets, nintersects = nintersects,
+      p5 <- UpSetR::upset(setup_g, nsets = nsets, nintersects = nintersects,
                           order.by = 'freq',
                           queries = query,
                           point.size = 3.5, line.size = 2, 
@@ -71,21 +71,21 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
     }
     
     else if (i == 10){
-      p10 <- UpSetR::upset(setup_g, main.bar.color = 'black', nsets = nsets, nintersects = nintersects,
+      p10 <- UpSetR::upset(setup_g, nsets = nsets, nintersects = nintersects,
                            order.by = 'freq',
                            queries = query,
                            point.size = 3.5, line.size = 2, 
                            text.scale = c(1.3, 1.3, 1, 1, 1.5, 1))
     }
     else if (i == 15){
-      p15 <- UpSetR::upset(setup_g, main.bar.color = 'black', nsets = nsets, nintersects = nintersects,
+      p15 <- UpSetR::upset(setup_g, nsets = nsets, nintersects = nintersects,
                            order.by = 'freq',
                            queries = query,
                            point.size = 3.5, line.size = 2, 
                            text.scale = c(1.3, 1.3, 1, 1, 1.5, 1))
     }
     else if (i == 20){
-      p20 <- UpSetR::upset(setup_g, main.bar.color = 'black', nsets = nsets, nintersects = nintersects,
+      p20 <- UpSetR::upset(setup_g, nsets = nsets, nintersects = nintersects,
                            order.by = 'freq',
                            queries = query,
                            point.size = 3.5, line.size = 2, 
