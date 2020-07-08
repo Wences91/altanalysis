@@ -59,8 +59,8 @@ altmetric_wos_mentions <- function(mentions, wos_incites, filter=NULL, only_twee
   ## Filter by only tweets
   if(only_tweets){
     if(all(mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')] %in% retweets$`Mention URL`)){
-      message('Tweets: ', round(100*sum(retweets$Retweet[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')]], na.rm = TRUE)/dim(retweets[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')],])[1], 2))
-      message('Retweets: ', round(100*sum((!retweets$Retweet[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')]]), na.rm = TRUE)/dim(retweets[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')],])[1], 2))
+      message('Tweets: ', round(100*sum((!retweets$Retweet[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')]]), na.rm = TRUE)/dim(retweets[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')],])[1], 2))
+      message('Retweets: ', round(100*sum(retweets$Retweet[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')]], na.rm = TRUE)/dim(retweets[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')],])[1], 2))
       message('Unknown: ', round(100*sum((is.na(retweets$Retweet[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')]])), na.rm = TRUE)/dim(retweets[retweets$`Mention URL` %in% mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')],])[1], 2))
       mentions <- mentions[which(!(mentions$`Mention URL` %in% retweets$`Mention URL`[retweets$Retweet] | mentions$`Mention URL` %in% retweets$`Mention URL`[which(is.na(retweets$Retweet))])),]
     }else{
