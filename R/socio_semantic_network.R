@@ -4,6 +4,7 @@
 #' @param keywords_mentions_cluster Altmetric.com mentions with keywords data.frame from co_authors_network
 #' @param mode Socio-semantic netowrk mode: (1) Clouds by keywords communities and nodes colors by co-authors communities, (2) Clouds by co-authors communities and nodes colors by keywords communities
 #' @param layout Name of layout algorithm (1-Auto, 2-Kamada-Kawai, 3-Fruchterman-Reingold, 4-DrL, 5-Nicely, 6-Components)
+#' @param legend Ordered vector with the names of the clusters
 #' @param nodes_size Vector with minimum and maximum value of the nodes
 #' @param label_ratio Ratio of the size of the node labels
 #' @description This function obtains the socio-semantic network
@@ -11,7 +12,7 @@
 #' @importFrom igraph graph_from_data_frame V E degree cluster_louvain layout.auto layout_with_kk layout_with_fr layout_with_drl layout_nicely layout_components
 #' 
 
-socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, mode=1, layout=1, nodes_size = c(1:10), label_ratio = 0.1){
+socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, mode=1, layout=1, legend, nodes_size = c(1:10), label_ratio = 0.1){
   g <- igraph::graph_from_data_frame(co_authors_edges, directed=FALSE)
   
   # Reduce to main component
@@ -66,6 +67,11 @@ socio_semantic_network <- function(co_authors_edges, keywords_mentions_cluster, 
        vertex.color=igraph::V(g)$Colors, vertex.size=igraph::V(g)$degree_norm, vertex.frame.color=NA,
        edge.width=.1, #edge.color=NA,
        add = TRUE)
+  
+  legend('bottomright', legend, pch = 21, pt.bg = rainbow(length(legend)), col = rainbow(length(legend)), bty = 'n', title = expression(bold('Nodes')),
+         y.intersp = 1, x.intersp = 0.5, xjust = 0,
+         title.adj = 0.5, ncol = 1,
+         cex = 0.9)
   
   compare <- data.frame(nodes=clusters_nodes$membership, clouds=clusters_cloud$membership, count=1, stringsAsFactors = FALSE)
   compare <- dplyr::group_by(compare, nodes, clouds)
