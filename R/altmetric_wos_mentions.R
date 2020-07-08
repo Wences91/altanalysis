@@ -28,7 +28,7 @@ altmetric_wos_mentions <- function(mentions, wos_incites, filter=NULL, only_twee
   ## Select ducplicated DOI in WoS and remove them in WoS and Altmetric.com
   duplicated_doi <- wos_incites$DOI[which(duplicated(wos_incites$DOI))]
   if(length(duplicated_doi) > 0){
-    warning(paste('There are', as.character(length(duplicated_doi)), 'records with duplicated DOI'), call.=FALSE)
+    warning(paste('There are', as.character(length(duplicated_doi)), 'records with duplicated DOI\n'), call.=FALSE)
     wos_incites <- wos_incites[which(!(wos_incites$DOI %in% duplicated_doi)),]
     mentions <- mentions[which(!(mentions$DOI %in% duplicated_doi)),]
   }
@@ -42,7 +42,7 @@ altmetric_wos_mentions <- function(mentions, wos_incites, filter=NULL, only_twee
   if(is.null(filter) | 'Tweet' %in% filter){
     empties <- which(mentions$`Outlet or Author`[which(mentions$`Mention Type` == 'Tweet')] == '' | is.na(is.na(mentions$`Outlet or Author`[which(mentions$`Mention Type` == 'Tweet')])))
     if(length(empties) > 0){
-      warning(paste('There are', as.character(length(empties)), 'Twitter mentions without author name'), call.=FALSE)
+      warning(paste('There are', as.character(length(empties)), 'Twitter mentions without author name\n'), call.=FALSE)
       sapply(empties, function(x){
         mentions$`Outlet or Author`[which(mentions$`Mention Type` == 'Tweet')][x] <<- paste0('@', strsplit(mentions$`Mention URL`[which(mentions$`Mention Type` == 'Tweet')][x], '/|/#!/')[[1]][4])
       })
