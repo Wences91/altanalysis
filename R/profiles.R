@@ -16,7 +16,7 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
   # query for colors
   query <- list()
   for (color_q in legend){
-    query <- append(query, list(list(query = UpsetR::intersects, params = list(color_q), color = '#3498db', active = T)))
+    query <- append(query, list(list(query = UpSetR::intersects, params = list(color_q), color = '#3498db', active = T)))
   }
   
   clusters$cluster <-  setNames(legend, unique(sort(clusters$cluster)))[as.character(clusters$cluster)]
