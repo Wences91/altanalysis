@@ -55,7 +55,7 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
                            queries = query,
                            point.size = 3.5, line.size = 2, 
                            text.scale = c(1.3, 1.3, 1, 1, 1.5, 1))
-  
+  general_data <- setup_g
   
   for (i in c(5, 10, 15, 20)){
     setup_g <- setup_2
@@ -68,6 +68,7 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
                           queries = query,
                           point.size = 3.5, line.size = 2, 
                           text.scale = c(1.3, 1.3, 1, 1, 1.5, 1))
+      p5_data <- setup_g
     }
     
     else if (i == 10){
@@ -76,6 +77,7 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
                            queries = query,
                            point.size = 3.5, line.size = 2, 
                            text.scale = c(1.3, 1.3, 1, 1, 1.5, 1))
+      p10_data <- setup_g
     }
     else if (i == 15){
       p15 <- UpSetR::upset(setup_g, nsets = nsets, nintersects = nintersects,
@@ -83,6 +85,7 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
                            queries = query,
                            point.size = 3.5, line.size = 2, 
                            text.scale = c(1.3, 1.3, 1, 1, 1.5, 1))
+      p15 <- setup_g
     }
     else if (i == 20){
       p20 <- UpSetR::upset(setup_g, nsets = nsets, nintersects = nintersects,
@@ -90,8 +93,10 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
                            queries = query,
                            point.size = 3.5, line.size = 2, 
                            text.scale = c(1.3, 1.3, 1, 1, 1.5, 1))
+      p20 <- setup_g
     }
     
   }
-  return(list(general = general, p5 = p5, p10 = p10, p15 = p15, p20 = p20))
+  return(list(general = general, p5 = p5, p10 = p10, p15 = p15, p20 = p20,
+              data = list(general = general_data, p5 = p5_data, p10 = p10_data, p15 = p15_data, p20 = p20_data)))
 }
