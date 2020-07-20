@@ -85,7 +85,7 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
                            queries = query,
                            point.size = 3.5, line.size = 2, 
                            text.scale = c(1.3, 1.3, 1, 1, 1.5, 1))
-      p15 <- setup_g
+      p15_data <- setup_g
     }
     else if (i == 20){
       p20 <- UpSetR::upset(setup_g, nsets = nsets, nintersects = nintersects,
@@ -93,7 +93,7 @@ profiles <- function(clusters, legend, keywords_mentions, nsets = 6, nintersects
                            queries = query,
                            point.size = 3.5, line.size = 2, 
                            text.scale = c(1.3, 1.3, 1, 1, 1.5, 1))
-      p20 <- setup_g
+      p20_data <- setup_g
     }
     
   }
