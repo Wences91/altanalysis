@@ -22,25 +22,8 @@ devtools::install_github('Wences91/altanalysis')
 ## Example
 ### Load data
 ```{r}
-mentions <- read.csv('mentions-sample.csv',
-                     check.names = FALSE,
-                     stringsAsFactors = FALSE)
+altanalysis::socio_semantic_network(inf_co_an$edges, inf_co_an$keywords_mentions_cluster,  layout=5, legend = inf_legend, nodes_size = c(2, 6), label_ratio = 0.001, custom_colors_nodes = c('#F98400', '#5BBCD6', '#00A08A', '#FF0000'), custom_colors_clouds = c('#00A08A', '#FF0000', '#5BBCD6', '#F98400'))
 ```
 
-### Create co-mentions
-```{r}
-library(altanalysis)
-co_mentions <- co_authors(mentions)
-```
-
-### Create co-mentions network
-```{r}
-edges <- co_mentions$mentions
-nodes <- co_mentions$actors
-
-par(mar = c(0, 0, 0, 0))
-network(nodes, edges, co_min = 1, min = 3)
-
-```
 
 
