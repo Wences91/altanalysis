@@ -72,7 +72,7 @@ socio_semantic_network <- function(co_authors_edges,
     if(!is.null(custom_colors_nodes)){
       igraph::V(g)$Colors <- custom_colors_nodes[(clusters_keywords$membership+1)]
     }else{
-      igraph::V(g)$Colors <- rainbow(length(unique(clusters_keywords$membership)))[(clusters_keywords$membership+1)]
+      igraph::V(g)$Colors <- rainbow(length(unique((clusters_keywords$membership+1))))[(clusters_keywords$membership+1)]
     }
     
     
