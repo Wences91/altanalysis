@@ -65,8 +65,8 @@ socio_semantic_network <- function(co_authors_edges,
     clusters_nodes <- clusters_keywords
     
     igraph::V(g)$cloud <- clusters_keywords$membership
-    igraph::V(g)$freq <- clusters_keywords$distribution_top$freq_abs
-    igraph::V(g)$percentage <- clusters_keywords$distribution_top$freq
+    igraph::V(g)$freq <- clusters_authors$distribution_top$freq_abs
+    igraph::V(g)$percentage <- clusters_authors$distribution_top$freq
     
     # Assign colors to nodes
     if(!is.null(custom_colors_nodes)){
