@@ -21,8 +21,15 @@ devtools::install_github('Wences91/altanalysis')
 
 ## Example
 ### Load data
-```{r}
-altanalysis::socio_semantic_network(inf_co_an$edges, inf_co_an$keywords_mentions_cluster,  layout=5, legend = inf_legend, nodes_size = c(2, 6), label_ratio = 0.001, custom_colors_nodes = c('#F98400', '#5BBCD6', '#00A08A', '#FF0000'), custom_colors_clouds = c('#00A08A', '#FF0000', '#5BBCD6', '#F98400'))
+```{r echo=TRUE, results='hide'}
+altanalysis::socio_semantic_network(inf_co_an$edges,
+                                    inf_co_an$keywords_mentions_cluster,
+                                    layout=5,
+                                    legend = inf_legend,
+                                    nodes_size = c(2, 6),
+                                    label_ratio = 0.001,
+                                    custom_colors_nodes = c('#F98400', '#5BBCD6', '#00A08A', '#FF0000'),
+                                    custom_colors_clouds = c('#00A08A', '#FF0000', '#5BBCD6', '#F98400'))
 ```
 
 
