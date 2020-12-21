@@ -5,16 +5,13 @@
 \title{socio_semantic_network}
 \usage{
 socio_semantic_network(co_authors_edges, keywords_mentions_cluster,
-  mode = 1, layout = 1, legend, nodes_size = c(1:10),
-  label_ratio = 0.1, custom_colors_nodes = NULL,
-  custom_colors_clouds = NULL)
+  layout = 1, legend, nodes_size = c(1:10), label_ratio = 0.1,
+  custom_colors_nodes = NULL, custom_colors_clouds = NULL)
 }
 \arguments{
 \item{co_authors_edges}{Edges of co_authors from co_authors_network}
 
 \item{keywords_mentions_cluster}{Altmetric.com mentions with keywords data.frame from co_authors_network}
-
-\item{mode}{Socio-semantic netowrk mode: (1) Clouds by keywords communities and nodes colors by co-authors communities, (2) Clouds by co-authors communities and nodes colors by keywords communities}
 
 \item{layout}{Name of layout algorithm (1-Auto, 2-Kamada-Kawai, 3-Fruchterman-Reingold, 4-DrL, 5-Nicely, 6-Components)}
 
