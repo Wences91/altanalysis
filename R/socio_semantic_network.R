@@ -2,7 +2,6 @@
 #' 
 #' @param co_authors_edges Edges of co_authors from co_authors_network
 #' @param keywords_mentions_cluster Altmetric.com mentions with keywords data.frame from co_authors_network
-#' @param mode Socio-semantic netowrk mode: (1) Clouds by keywords communities and nodes colors by co-authors communities, (2) Clouds by co-authors communities and nodes colors by keywords communities
 #' @param layout Name of layout algorithm (1-Auto, 2-Kamada-Kawai, 3-Fruchterman-Reingold, 4-DrL, 5-Nicely, 6-Components)
 #' @param legend Ordered vector with the names of the clusters
 #' @param nodes_size Vector with minimum and maximum value of the nodes
@@ -16,7 +15,6 @@
 
 socio_semantic_network <- function(co_authors_edges,
                                    keywords_mentions_cluster,
-                                   mode=1,
                                    layout=1,
                                    legend,
                                    nodes_size = c(1:10),
@@ -33,51 +31,28 @@ socio_semantic_network <- function(co_authors_edges,
   igraph::V(g)$degree <- igraph::degree(g)
   igraph::V(g)$degree_norm <- (nodes_size[2]-nodes_size[1])*((igraph::V(g)$degree-min(igraph::V(g)$degree))/(max(igraph::V(g)$degree)-min(igraph::V(g)$degree)))+nodes_size[1]
   
-  if(mode==1){
-    clusters_authors <- igraph::cluster_louvain(g, weights = igraph::E(g)$Weights)
-    message("Authors modularity (cloud): ", round(mean(clusters_authors$modularity), 2), ' | Clusters: ', length(unique(clusters_authors$membership)))
-    clusters_keywords <- thematic_clusters_ranked(keywords_mentions_cluster, g)
-    message("Semantic modularity (nodes): ", round(clusters_keywords$clusters$modularity, 2), ' | Clusters: ', length(unique(clusters_keywords$clusters$membership)))
-    clusters_cloud <- clusters_authors
-    clusters_nodes <- clusters_keywords$clusters
-    
-    igraph::V(g)$cloud <- clusters_authors$membership
-    igraph::V(g)$freq <- clusters_keywords$distribution_top$freq_abs
-    igraph::V(g)$percentage <- clusters_keywords$distribution_top$freq
-    
-    # Assign colors to nodes
-    if(any(clusters_keywords$clusters$membership == (max(unique(keywords_mentions_cluster$cluster))+1))){
-      igraph::V(g)$Colors <- '#FFFFFFFF'
-      igraph::V(g)$Colors[which(!(clusters_keywords$clusters$membership %in% (max(unique(keywords_mentions_cluster$cluster))+1)))] <- rainbow(length(unique(clusters_keywords$clusters$membership))-1)[clusters_keywords$clusters$membership[which(!(clusters_keywords$clusters$membership %in% (max(unique(keywords_mentions_cluster$cluster))+1)))]]
-    }else{
-      if(!is.null(custom_colors_nodes)){
-        igraph::V(g)$Colors <- custom_colors_nodes[clusters_keywords$clusters$membership]
-      }else{
-        igraph::V(g)$Colors <- rainbow(length(unique(clusters_keywords$clusters$membership)))[clusters_keywords$clusters$membership]
-      }
-    }
-  }else if(mode==2){
-    clusters_authors <- thematic_clusters_ranked(keywords_mentions_cluster, g)
-    message("Semantic modularity (cloud): ", round(clusters_authors$clusters$modularity, 2), ' | Clusters: ', length(unique(clusters_authors$clusters$membership)))
-    clusters_keywords <- igraph::cluster_louvain(g, weights = igraph::E(g)$Weights)
-    message("Authors modularity (nodes): ", round(mean(clusters_keywords$modularity), 2), ' | Clusters: ', length(unique(clusters_keywords$membership)))
-    clusters_cloud <- clusters_authors$clusters
-    clusters_nodes <- clusters_keywords
-    
-    igraph::V(g)$cloud <- clusters_authors$clusters$membership
-    igraph::V(g)$freq <- clusters_authors$distribution_top$freq_abs
-    igraph::V(g)$percentage <- clusters_authors$distribution_top$freq
-    
-    # Assign colors to nodes
-    if(!is.null(custom_colors_nodes)){
-      igraph::V(g)$Colors <- custom_colors_nodes[clusters_keywords$membership]
-    }else{
-      igraph::V(g)$Colors <- rainbow(length(unique(clusters_keywords$membership)))[clusters_keywords$membership]
-    }
-    
-    
+  
+  clusters_authors <- igraph::cluster_louvain(g, weights = igraph::E(g)$Weights)
+  message("Authors modularity (cloud): ", round(mean(clusters_authors$modularity), 2), ' | Clusters: ', length(unique(clusters_authors$membership)))
+  clusters_keywords <- thematic_clusters_ranked(keywords_mentions_cluster, g)
+  message("Semantic modularity (nodes): ", round(clusters_keywords$clusters$modularity, 2), ' | Clusters: ', length(unique(clusters_keywords$clusters$membership)))
+  clusters_cloud <- clusters_authors
+  clusters_nodes <- clusters_keywords$clusters
+  
+  igraph::V(g)$cloud <- clusters_authors$membership
+  igraph::V(g)$freq <- clusters_keywords$distribution_top$freq_abs
+  igraph::V(g)$percentage <- clusters_keywords$distribution_top$freq
+  
+  # Assign colors to nodes
+  if(any(clusters_keywords$clusters$membership == (max(unique(keywords_mentions_cluster$cluster))+1))){
+    igraph::V(g)$Colors <- '#FFFFFFFF'
+    igraph::V(g)$Colors[which(!(clusters_keywords$clusters$membership %in% (max(unique(keywords_mentions_cluster$cluster))+1)))] <- rainbow(length(unique(clusters_keywords$clusters$membership))-1)[clusters_keywords$clusters$membership[which(!(clusters_keywords$clusters$membership %in% (max(unique(keywords_mentions_cluster$cluster))+1)))]]
   }else{
-    stop('Mode ', mode, ' does not exist')
+    if(!is.null(custom_colors_nodes)){
+      igraph::V(g)$Colors <- custom_colors_nodes[clusters_keywords$clusters$membership]
+    }else{
+      igraph::V(g)$Colors <- rainbow(length(unique(clusters_keywords$clusters$membership)))[clusters_keywords$clusters$membership]
+    }
   }
   
   l <- switch(layout, igraph::layout.auto(g), igraph::layout_with_kk(g), igraph::layout_with_fr(g), igraph::layout_with_drl(g), igraph::layout_nicely(g), igraph::layout_components(g))
