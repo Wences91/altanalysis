@@ -6,7 +6,8 @@
 \usage{
 socio_semantic_network(co_authors_edges, keywords_mentions_cluster,
   mode = 1, layout = 1, legend, nodes_size = c(1:10),
-  label_ratio = 0.1)
+  label_ratio = 0.1, custom_colors_nodes = NULL,
+  custom_colors_clouds = NULL)
 }
 \arguments{
 \item{co_authors_edges}{Edges of co_authors from co_authors_network}
@@ -22,6 +23,10 @@ socio_semantic_network(co_authors_edges, keywords_mentions_cluster,
 \item{nodes_size}{Vector with minimum and maximum value of the nodes}
 
 \item{label_ratio}{Ratio of the size of the node labels}
+
+\item{custom_colors_nodes}{Vector of colors for the nodes}
+
+\item{custom_colors_clouds}{Vector of colors for the clouds}
 }
 \description{
 This function obtains the socio-semantic network
