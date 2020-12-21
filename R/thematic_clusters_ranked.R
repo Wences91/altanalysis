@@ -43,7 +43,9 @@ thematic_clusters_ranked <- function(mentions, nodes){
   sapply(1:dim(cluster)[1], function(x){
     top_cluster <- colnames(cluster)[which(cluster[x,]==min(cluster[x,]))]
     freq_dist_top <<- rbind.data.frame(freq_dist_top,
-                                       data.frame(cluster=top_cluster, freq=100*as.integer(cluster_aux[x, top_cluster])/sum(cluster_aux[x,]), stringsAsFactors = FALSE),
+                                       data.frame(cluster=top_cluster,
+                                                  freq_abs = as.integer(cluster_aux[x, top_cluster]),
+                                                  freq=100*as.integer(cluster_aux[x, top_cluster])/sum(cluster_aux[x,]), stringsAsFactors = FALSE),
                                        stringsAsFactors = FALSE)
     
     if(length(top_cluster) > 1){
