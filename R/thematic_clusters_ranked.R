@@ -20,7 +20,7 @@ thematic_clusters_ranked <- function(mentions, nodes){
   sapply(1:length(igraph::V(nodes)$name), function(x){
     
     # get the most common thematic cluster
-    cluster_id <- table(factor(mentions[which(mentions$`Outlet or Author` == igraph::V(nodes)$name[x]), 'cluster'], levels = cluster_levels, ordered = TRUE))
+    cluster_id <- table(factor(mentions$cluster[which(mentions$`Outlet or Author` == igraph::V(nodes)$name[x])], levels = cluster_levels, ordered = TRUE))
     cluster_id <- as.data.frame(cluster_id, stringsAsFactors = FALSE)
     cluster_id <- data.frame(t(cluster_id), stringsAsFactors = FALSE)
     names(cluster_id) <- cluster_id[1,]
